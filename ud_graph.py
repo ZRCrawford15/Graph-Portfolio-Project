@@ -47,7 +47,7 @@ class UndirectedGraph:
         """
         # Adds a new key with an empty list to the graph
         self.adj_list[v] = []
-        
+
     def add_edge(self, u: str, v: str) -> None:
         """
         Add edge to the graph
@@ -72,7 +72,6 @@ class UndirectedGraph:
         if v not in self.adj_list[u]:
             self.adj_list[u].append(v)
 
-        
 
     def remove_edge(self, v: str, u: str) -> None:
         """
@@ -88,14 +87,10 @@ class UndirectedGraph:
         v_list = self.adj_list[v]
         v_list.remove(u)
 
-        #remove v from u
+        # remove v from u
         u_list = self.adj_list[u]
         u_list.remove(v)
 
-
-
-
-        
 
     def remove_vertex(self, v: str) -> None:
         """
@@ -126,7 +121,6 @@ class UndirectedGraph:
         return vertices
 
 
-
     def get_edges(self) -> []:
         """
         Return list of edges in the graph (any order)
@@ -150,8 +144,6 @@ class UndirectedGraph:
         return edges
 
 
-        
-
     def is_valid_path(self, path: []) -> bool:
         """
         Return true if provided path is valid, False otherwise
@@ -165,7 +157,6 @@ class UndirectedGraph:
             if path[0] not in self.adj_list.keys():
                 return False
 
-
         for i in range(len(path) - 1):
             current_vertex = path[i]
 
@@ -175,9 +166,6 @@ class UndirectedGraph:
             else:
                 return False
         return True
-
-
-
 
         # visited = []
         # test = self.is_valid_path_recusive(path, 0, 0, visited)
@@ -209,68 +197,133 @@ class UndirectedGraph:
         Return list of vertices visited during DFS search
         Vertices are picked in alphabetical order
         """
-       
+
+        # 1) initialize hash table of vertices
+        visited = {}
+        keys = self.adj_list.keys()
+        for key in keys:
+            visited[key] = False
+        #
+        # e.g {'A': true, 'B': false...}
+        # 2) initialize empty stack
+        # append() to add to top, pop() to remove from top
+
+        stack = []
+        traveled_vertex_list = []
+        stack.append(v_start)
+
+
+
+
+        # repeat until stack is not empty
+        while len(stack) != 0:
+            top = stack.pop()
+
+            # # put next traveled into
+            # if top not in traveled_vertex_list:
+
+            # end point
+            if top != v_end:
+                # test = visited[top]
+                if not visited[top]:
+                    # # put next traveled into
+                    traveled_vertex_list.append(top)
+                    # set top of stack as visited
+                    visited[top] = True
+                    # add each successor of vertex to the stack
+                    for vertex in self.adj_list[top]:
+                        # test = self.adj_list[top]
+                        stack.append(vertex)
+
+        return traveled_vertex_list
+
+        # add vertices to return list of visited []
+        # check if end point
+        # if vertex is not visited - add vertex to visited
+        #   push each vertex that is a direct neighbor to the stack
+
+        # visited[v_start] = True
+        # traveled_vertex_list = []
+        #
+        # self.dfs_rec(v_start, v_end, visited, traveled_vertex_list)
+
+
+    def dfs_rec(self, v_start, v_end, visited, traveled_list):
+        if v_start == v_end:
+            traveled_list.append(v_start)
+            return
+
 
     def bfs(self, v_start, v_end=None) -> []:
         """
         Return list of vertices visited during BFS search
         Vertices are picked in alphabetical order
         """
-        
+
+        # 1) initialize hash table of vertices
+        visited = {}
+        keys = self.adj_list.keys()
+        for key in keys:
+            visited[key] = False
+        #
+        # e.g {'A': true, 'B': false...}
+        # 2) initialize empty stack
+        # append() to add to top, pop() to remove from top
+
+        stack = []
+        traveled_vertex_list = []
+        stack.append(v_start)
+
+
+
 
     def count_connected_components(self):
         """
         Return number of connected componets in the graph
         """
-      
+
 
     def has_cycle(self):
         """
         Return True if graph contains a cycle, False otherwise
         """
-       
-
-   
 
 
 if __name__ == '__main__':
 
-    # print("\nPDF - method add_vertex() / add_edge example 1")
-    # print("----------------------------------------------")
-    # g = UndirectedGraph()
-    # print(g)
-    #
-    # for v in 'ABCDE':
-    #     g.add_vertex(v)
-    # print(g)
-    #
-    # g.add_vertex('A')
-    # print(g)
-    #
-    # for u, v in ['AB', 'AC', 'BC', 'BD', 'CD', 'CE', 'DE', ('B', 'C')]:
-    #     g.add_edge(u, v)
-    # print(g)
-    #
-    #
-    # print("\nPDF - method remove_edge() / remove_vertex example 1")
-    # print("----------------------------------------------------")
-    # g = UndirectedGraph(['AB', 'AC', 'BC', 'BD', 'CD', 'CE', 'DE'])
-    # g.remove_vertex('DOES NOT EXIST')
-    # g.remove_edge('A', 'B')
-    # g.remove_edge('X', 'B')
-    # print(g)
-    # g.remove_vertex('D')
-    # print(g)
-    #
-    #
-    # print("\nPDF - method get_vertices() / get_edges() example 1")
-    # print("---------------------------------------------------")
-    # g = UndirectedGraph()
-    # print(g.get_edges(), g.get_vertices(), sep='\n')
-    # g = UndirectedGraph(['AB', 'AC', 'BC', 'BD', 'CD', 'CE'])
-    # print(g.get_edges(), g.get_vertices(), sep='\n')
-    #
-    #
+    print("\nPDF - method add_vertex() / add_edge example 1")
+    print("----------------------------------------------")
+    g = UndirectedGraph()
+    print(g)
+
+    for v in 'ABCDE':
+        g.add_vertex(v)
+    print(g)
+
+    g.add_vertex('A')
+    print(g)
+
+    for u, v in ['AB', 'AC', 'BC', 'BD', 'CD', 'CE', 'DE', ('B', 'C')]:
+        g.add_edge(u, v)
+    print(g)
+
+    print("\nPDF - method remove_edge() / remove_vertex example 1")
+    print("----------------------------------------------------")
+    g = UndirectedGraph(['AB', 'AC', 'BC', 'BD', 'CD', 'CE', 'DE'])
+    g.remove_vertex('DOES NOT EXIST')
+    g.remove_edge('A', 'B')
+    g.remove_edge('X', 'B')
+    print(g)
+    g.remove_vertex('D')
+    print(g)
+
+    print("\nPDF - method get_vertices() / get_edges() example 1")
+    print("---------------------------------------------------")
+    g = UndirectedGraph()
+    print(g.get_edges(), g.get_vertices(), sep='\n')
+    g = UndirectedGraph(['AB', 'AC', 'BC', 'BD', 'CD', 'CE'])
+    print(g.get_edges(), g.get_vertices(), sep='\n')
+
     print("\nPDF - method is_valid_path() example 1")
     print("--------------------------------------")
     g = UndirectedGraph(['AB', 'AC', 'BC', 'BD', 'CD', 'CE', 'DE'])
@@ -278,19 +331,19 @@ if __name__ == '__main__':
     # test_cases = ['Z']
     for path in test_cases:
         print(list(path), g.is_valid_path(list(path)))
+
     #
-    #
-    # print("\nPDF - method dfs() and bfs() example 1")
-    # print("--------------------------------------")
-    # edges = ['AE', 'AC', 'BE', 'CE', 'CD', 'CB', 'BD', 'ED', 'BH', 'QG', 'FG']
-    # g = UndirectedGraph(edges)
-    # test_cases = 'ABCDEGH'
-    # for case in test_cases:
-    #     print(f'{case} DFS:{g.dfs(case)} BFS:{g.bfs(case)}')
-    # print('-----')
-    # for i in range(1, len(test_cases)):
-    #     v1, v2 = test_cases[i], test_cases[-1 - i]
-    #     print(f'{v1}-{v2} DFS:{g.dfs(v1, v2)} BFS:{g.bfs(v1, v2)}')
+    print("\nPDF - method dfs() and bfs() example 1")
+    print("--------------------------------------")
+    edges = ['AE', 'AC', 'BE', 'CE', 'CD', 'CB', 'BD', 'ED', 'BH', 'QG', 'FG']
+    g = UndirectedGraph(edges)
+    test_cases = 'ABCDEGH'
+    for case in test_cases:
+        print(f'{case} DFS:{g.dfs(case)} BFS:{g.bfs(case)}')
+    print('-----')
+    for i in range(1, len(test_cases)):
+        v1, v2 = test_cases[i], test_cases[-1 - i]
+        print(f'{v1}-{v2} DFS:{g.dfs(v1, v2)} BFS:{g.bfs(v1, v2)}')
     #
     #
     # print("\nPDF - method count_connected_components() example 1")
