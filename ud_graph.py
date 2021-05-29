@@ -213,45 +213,24 @@ class UndirectedGraph:
         stack.append(v_start)
 
 
-        #
-
         # repeat until stack is not empty
         while len(stack) != 0:
             top = stack.pop()
 
-            # # put next traveled into
-            # if top not in traveled_vertex_list:
-
             # end point
-            if top != v_end:
-                # test = visited[top]
-                if not visited[top]:
-                    # # put next traveled into
-                    traveled_vertex_list.append(top)
-                    # set top of stack as visited
-                    visited[top] = True
-                    # add each successor of vertex to the stack
-                    for vertex in self.adj_list[top]:
-                        # test = self.adj_list[top]
-                        stack.append(vertex)
+            if top != v_end and not visited[top]:
+                # # put next traveled into
+                traveled_vertex_list.append(top)
+                # set top of stack as visited
+                visited[top] = True
+                # add each successor of vertex to the stack
+                successors = self.adj_list[top]
+                successors.sort(reverse=True)
+                for vertex in successors:
+                    stack.append(vertex)
 
         return traveled_vertex_list
 
-        # add vertices to return list of visited []
-        # check if end point
-        # if vertex is not visited - add vertex to visited
-        #   push each vertex that is a direct neighbor to the stack
-
-        # visited[v_start] = True
-        # traveled_vertex_list = []
-        #
-        # self.dfs_rec(v_start, v_end, visited, traveled_vertex_list)
-
-
-    def dfs_rec(self, v_start, v_end, visited, traveled_list):
-        if v_start == v_end:
-            traveled_list.append(v_start)
-            return
 
 
     def bfs(self, v_start, v_end=None) -> []:
@@ -270,9 +249,9 @@ class UndirectedGraph:
         # 2) initialize empty stack
         # append() to add to top, pop() to remove from top
 
-        stack = []
+        queue = []
         traveled_vertex_list = []
-        stack.append(v_start)
+        queue.append(v_start)
 
 
 
