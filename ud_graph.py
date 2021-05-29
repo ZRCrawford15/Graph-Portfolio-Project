@@ -218,7 +218,18 @@ class UndirectedGraph:
             top = stack.pop()
 
             # end point
-            if top != v_end and not visited[top]:
+            # TODO: figure out how to append stop position if found
+
+            # check if v_end is in vertex's neighbors
+            # append current vertex and end vertex
+            # to the traveled list and break the loop
+
+            if top == v_end:
+                traveled_vertex_list.append(top)
+                break
+
+
+            elif top != v_end and not visited[top]:
                 # # put next traveled into
                 traveled_vertex_list.append(top)
                 # set top of stack as visited
@@ -226,6 +237,7 @@ class UndirectedGraph:
                 # add each successor of vertex to the stack
                 successors = self.adj_list[top]
                 successors.sort(reverse=True)
+
                 for vertex in successors:
                     stack.append(vertex)
 
@@ -249,9 +261,9 @@ class UndirectedGraph:
         # 2) initialize empty stack
         # append() to add to top, pop() to remove from top
 
-        queue = []
+        stack = []
         traveled_vertex_list = []
-        queue.append(v_start)
+        stack.append(v_start)
 
 
 
@@ -323,6 +335,9 @@ if __name__ == '__main__':
     for i in range(1, len(test_cases)):
         v1, v2 = test_cases[i], test_cases[-1 - i]
         print(f'{v1}-{v2} DFS:{g.dfs(v1, v2)} BFS:{g.bfs(v1, v2)}')
+
+
+    # print(f'DFS C-E: {g.dfs("C", "E")}')
     #
     #
     # print("\nPDF - method count_connected_components() example 1")
