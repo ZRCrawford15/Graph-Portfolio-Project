@@ -198,6 +198,10 @@ class UndirectedGraph:
         Vertices are picked in alphabetical order
         """
 
+        # Start vertex does not exist
+        if v_start not in self.adj_list.keys():
+            return []
+
         # 1) initialize hash table of vertices
         visited = {}
         keys = self.adj_list.keys()
@@ -337,7 +341,7 @@ if __name__ == '__main__':
         print(f'{v1}-{v2} DFS:{g.dfs(v1, v2)} BFS:{g.bfs(v1, v2)}')
 
 
-    # print(f'DFS C-E: {g.dfs("C", "E")}')
+    print(f'DFS J: {g.dfs("J")}')
     #
     #
     # print("\nPDF - method count_connected_components() example 1")
