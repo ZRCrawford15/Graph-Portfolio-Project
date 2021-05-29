@@ -255,6 +255,10 @@ class UndirectedGraph:
         Vertices are picked in alphabetical order
         """
 
+        # Start vertex does not exist
+        if v_start not in self.adj_list.keys():
+            return []
+
         # 1) initialize hash table of vertices
         visited = {}
         keys = self.adj_list.keys()
@@ -265,10 +269,37 @@ class UndirectedGraph:
         # 2) initialize empty stack
         # append() to add to top, pop() to remove from top
 
-        stack = []
+        queue = []
         traveled_vertex_list = []
-        stack.append(v_start)
+        queue.append(v_start)
 
+        # repeat until stack is not empty
+        while len(queue) != 0:
+            top = queue.pop(0)
+            # change vertex to visited
+            if visited[top]:
+                continue
+
+
+            visited[top] = True
+
+            # found end vertex
+            if top == v_end:
+                traveled_vertex_list.append(top)
+                break
+
+
+            # append visited list
+            traveled_vertex_list.append(top)
+            # for each direct successor of vertex that is not
+            # visited add it to the queue
+            successors = self.adj_list[top]
+            successors.sort()
+            for vertex in successors:
+                if not visited[vertex]:
+                    queue.append(vertex)
+
+        return traveled_vertex_list
 
 
 
