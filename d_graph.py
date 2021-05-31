@@ -52,33 +52,86 @@ class DirectedGraph:
 
     def add_vertex(self) -> int:
         """
-        TODO: Write this implementation
+        Adds a new vertex to the graph. Inserted vertex will be assigned
+        a reference index integer. First vertex is index 0.
+        Return: The total number of vertices in the graph
         """
-        pass
+
+        # add new row with the number of columns
+        self.adj_matrix.append([0] * self.v_count)
+
+        # append new column to each row
+
+        for row in self.adj_matrix:
+            row.append(0)
+
+
+        self.v_count += 1
+
+        return self.v_count
 
     def add_edge(self, src: int, dst: int, weight=1) -> None:
         """
-        TODO: Write this implementation
+        Adds a new edge to the graph. Connecting two verticies
+        with a positive weight
         """
-        pass
+
+        # invalid vertex
+        if src > len(self.adj_matrix) or dst > len(self.adj_matrix[0]):
+            return
+
+        # same vertex
+        if src == dst:
+            return
+
+        # invalid weight
+        if weight < 1:
+            return
+
+        self.adj_matrix[src][dst] = weight
+
+        return
 
     def remove_edge(self, src: int, dst: int) -> None:
         """
-        TODO: Write this implementation
+        Removes an edge between two vertices.
         """
-        pass
+        # invalid vertex
+        if src > len(self.adj_matrix) or dst > self.adj_matrix[0]:
+            return
+
+        self.adj_matrix[src][dst] = 0
+
+        return
 
     def get_vertices(self) -> []:
         """
-        TODO: Write this implementation
+        Gets the vertices in the graph
         """
-        pass
+
+        vertices = []
+
+        for count, value in enumerate(self.adj_matrix):
+            vertices.append(count)
+
+        return vertices
+
+
 
     def get_edges(self) -> []:
         """
-        TODO: Write this implementation
+        Gets the edges in the graph
         """
-        pass
+
+        edges = []
+
+        for row in range(len(self.adj_matrix)):
+            for column in range(len(self.adj_matrix[row])):
+                weight = self.adj_matrix[row][column]
+                if weight > 0:
+                    edges.append((row, column, weight))
+
+        return edges
 
     def is_valid_path(self, path: []) -> bool:
         """
@@ -136,53 +189,53 @@ if __name__ == '__main__':
              (3, 1, 5), (2, 1, 23), (3, 2, 7)]
     g = DirectedGraph(edges)
     print(g.get_edges(), g.get_vertices(), sep='\n')
-
-
-    print("\nPDF - method is_valid_path() example 1")
-    print("--------------------------------------")
-    edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
-             (3, 1, 5), (2, 1, 23), (3, 2, 7)]
-    g = DirectedGraph(edges)
-    test_cases = [[0, 1, 4, 3], [1, 3, 2, 1], [0, 4], [4, 0], [], [2]]
-    for path in test_cases:
-        print(path, g.is_valid_path(path))
-
-
-    print("\nPDF - method dfs() and bfs() example 1")
-    print("--------------------------------------")
-    edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
-             (3, 1, 5), (2, 1, 23), (3, 2, 7)]
-    g = DirectedGraph(edges)
-    for start in range(5):
-        print(f'{start} DFS:{g.dfs(start)} BFS:{g.bfs(start)}')
-
-
-    print("\nPDF - method has_cycle() example 1")
-    print("----------------------------------")
-    edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
-             (3, 1, 5), (2, 1, 23), (3, 2, 7)]
-    g = DirectedGraph(edges)
-
-    edges_to_remove = [(3, 1), (4, 0), (3, 2)]
-    for src, dst in edges_to_remove:
-        g.remove_edge(src, dst)
-        print(g.get_edges(), g.has_cycle(), sep='\n')
-
-    edges_to_add = [(4, 3), (2, 3), (1, 3), (4, 0)]
-    for src, dst in edges_to_add:
-        g.add_edge(src, dst)
-        print(g.get_edges(), g.has_cycle(), sep='\n')
-    print('\n', g)
-
-
-    print("\nPDF - dijkstra() example 1")
-    print("--------------------------")
-    edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
-             (3, 1, 5), (2, 1, 23), (3, 2, 7)]
-    g = DirectedGraph(edges)
-    for i in range(5):
-        print(f'DIJKSTRA {i} {g.dijkstra(i)}')
-    g.remove_edge(4, 3)
-    print('\n', g)
-    for i in range(5):
-        print(f'DIJKSTRA {i} {g.dijkstra(i)}')
+    #
+    #
+    # print("\nPDF - method is_valid_path() example 1")
+    # print("--------------------------------------")
+    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    # g = DirectedGraph(edges)
+    # test_cases = [[0, 1, 4, 3], [1, 3, 2, 1], [0, 4], [4, 0], [], [2]]
+    # for path in test_cases:
+    #     print(path, g.is_valid_path(path))
+    #
+    #
+    # print("\nPDF - method dfs() and bfs() example 1")
+    # print("--------------------------------------")
+    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    # g = DirectedGraph(edges)
+    # for start in range(5):
+    #     print(f'{start} DFS:{g.dfs(start)} BFS:{g.bfs(start)}')
+    #
+    #
+    # print("\nPDF - method has_cycle() example 1")
+    # print("----------------------------------")
+    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    # g = DirectedGraph(edges)
+    #
+    # edges_to_remove = [(3, 1), (4, 0), (3, 2)]
+    # for src, dst in edges_to_remove:
+    #     g.remove_edge(src, dst)
+    #     print(g.get_edges(), g.has_cycle(), sep='\n')
+    #
+    # edges_to_add = [(4, 3), (2, 3), (1, 3), (4, 0)]
+    # for src, dst in edges_to_add:
+    #     g.add_edge(src, dst)
+    #     print(g.get_edges(), g.has_cycle(), sep='\n')
+    # print('\n', g)
+    #
+    #
+    # print("\nPDF - dijkstra() example 1")
+    # print("--------------------------")
+    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    # g = DirectedGraph(edges)
+    # for i in range(5):
+    #     print(f'DIJKSTRA {i} {g.dijkstra(i)}')
+    # g.remove_edge(4, 3)
+    # print('\n', g)
+    # for i in range(5):
+    #     print(f'DIJKSTRA {i} {g.dijkstra(i)}')
