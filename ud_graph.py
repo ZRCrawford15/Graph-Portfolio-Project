@@ -77,6 +77,9 @@ class UndirectedGraph:
         """
         Remove edge from the graph
         """
+        # TODO: Fix edge case of vertices in graph but no edge between them
+
+
         # Vertex not in graph
         if v not in self.adj_list.keys():
             return
