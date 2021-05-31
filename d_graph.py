@@ -77,7 +77,7 @@ class DirectedGraph:
         """
 
         # invalid vertex
-        if src > len(self.adj_matrix) or dst > len(self.adj_matrix[0]):
+        if src > len(self.adj_matrix) - 1 or dst > len(self.adj_matrix[0]) - 1:
             return
 
         # same vertex
