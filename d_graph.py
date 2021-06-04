@@ -3,6 +3,11 @@
 # Assignment:
 # Description:
 
+
+import heapq
+from collections import deque
+
+
 class DirectedGraph:
     """
     Class to implement directed weighted graph
@@ -161,26 +166,121 @@ class DirectedGraph:
 
     def dfs(self, v_start, v_end=None) -> []:
         """
-        TODO: Write this implementation
+        Depth first search that returns a list
+        of vertices in the order they were visited during the search.
+        If the starting vertex is not in the graph an empty list is returned
+        Param v_start: starting search node
+        Param v_end: ending search node
+        Return: list of traversed nodes in order of visit
         """
-        pass
+
+        # Starting node is not in the graph
+        if v_start not in range(len(self.adj_matrix)):
+            return []
+
+        # 1) initialize hash table of vertices
+        visited = {}
+        matrix = self.adj_matrix
+        for vertex in range(len(matrix)):
+            visited[vertex] = False
+
+        # initialize empty stack
+        stack = []
+        traveled_list = []
+        stack.append(v_start)
+
+        while len(stack) > 0:
+            # pop top element
+            top = stack.pop()
+
+            if top == v_end:
+                traveled_list.append(top)
+                return
+
+            elif top != v_end and not visited[top]:
+                # appended traveled list
+                traveled_list.append(top)
+                # set vertex as visited
+                visited[top] = True
+                # add each successor of vertex to the stack
+                successors = self.adj_matrix[top]
+
+                counter = len(successors)
+                for vertex in range(len(successors), 0, -1):
+                    counter -= 1
+                    if successors[counter] > 0:
+                        stack.append(counter)
+
+        return traveled_list
+
 
     def bfs(self, v_start, v_end=None) -> []:
         """
-        TODO: Write this implementation
+        Breadth-first search that returns a list
+        of vertices in the order they were visited during the search.
+        If the starting vertex is not in the graph an empty list is returned
+        Param v_start: starting search node
+        Param v_end: ending search node
+        Return: list of traversed nodes in order of visit
         """
-        pass
+
+        # Starting node is not in the graph
+        if v_start not in range(len(self.adj_matrix)):
+            return []
+
+        # 1) initialize hash table of vertices
+        visited = {}
+        matrix = self.adj_matrix
+        for vertex in range(len(matrix)):
+            visited[vertex] = False
+
+        # initialize empty stack
+        queue = []
+        traveled_list = []
+        queue.append(v_start)
+
+        while len(queue) > 0:
+            front = queue.pop(0)
+            if visited[front]:
+                continue
+            visited[front] = True
+            if front == v_end:
+                traveled_list.append(front)
+                break
+
+            successors = self.adj_matrix[front]
+            counter = 0
+            traveled_list.append(front)
+            for vertex in range(len(successors)):
+                if not visited[counter] and successors[counter] > 0:
+                    queue.append(counter)
+                counter += 1
+
+        return traveled_list
 
     def has_cycle(self):
         """
         TODO: Write this implementation
         """
+        # Think of clever solution
+        # For all nodes
+            # 1) pick any node and start searching
+            # 2) see where end is
+            # 3) check if end is same as starting node
+
+
+
         pass
 
     def dijkstra(self, src: int) -> []:
         """
         TODO: Write this implementation
         """
+        # Start at a vertex
+        # check every edge and calculate cost -> list
+            #[0: 15, 1: 20, 2: 3] - find minumum cost
+        # for each neighbor, evaluate all of its neighbors (dfs)
+
         pass
 
 
@@ -211,24 +311,24 @@ if __name__ == '__main__':
     # print(g.get_edges(), g.get_vertices(), sep='\n')
     #
     #
-    print("\nPDF - method is_valid_path() example 1")
-    print("--------------------------------------")
-    edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
-             (3, 1, 5), (2, 1, 23), (3, 2, 7)]
-    g = DirectedGraph(edges)
-    test_cases = [[0, 1, 4, 3], [1, 3, 2, 1], [0, 4], [4, 0], [], [2]]
-    print(g)
-    for path in test_cases:
-        print(path, g.is_valid_path(path))
-    #
-    #
-    # print("\nPDF - method dfs() and bfs() example 1")
+    # print("\nPDF - method is_valid_path() example 1")
     # print("--------------------------------------")
     # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
     #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
     # g = DirectedGraph(edges)
-    # for start in range(5):
-    #     print(f'{start} DFS:{g.dfs(start)} BFS:{g.bfs(start)}')
+    # test_cases = [[0, 1, 4, 3], [1, 3, 2, 1], [0, 4], [4, 0], [], [2]]
+    # print(g)
+    # for path in test_cases:
+    #     print(path, g.is_valid_path(path))
+    #
+    #
+    print("\nPDF - method dfs() and bfs() example 1")
+    print("--------------------------------------")
+    edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+             (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    g = DirectedGraph(edges)
+    for start in range(5):
+        print(f'{start} DFS:{g.dfs(start)} BFS:{g.bfs(start)}')
     #
     #
     # print("\nPDF - method has_cycle() example 1")

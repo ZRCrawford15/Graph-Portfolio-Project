@@ -308,7 +308,7 @@ class UndirectedGraph:
 
     def count_connected_components(self):
         """
-        Return number of connected componets in the graph
+        Return number of connected components in the graph
         """
         # initialize graph as unvisited
         visited = {}
@@ -330,6 +330,11 @@ class UndirectedGraph:
                 connected_comp += 1
 
         return connected_comp
+
+    # make each node have a visited list
+    # DFS each node. Add to visited list
+    # Check with other visited lists
+    # For each vertex if they don't overlap it is a new connected component
 
     def dfs_helper(self, visited, vertex):
         """
