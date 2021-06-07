@@ -108,8 +108,13 @@ class DirectedGraph:
         rows = len(self.adj_matrix)
         columns = len(self.adj_matrix[0])
 
-        row_valid_index = rows - 1
-        column_valid_index = columns - 1
+        row_valid_index = rows
+        column_valid_index = columns
+
+        if src < 0 or dst < 0:
+            print(f"SRC: {src}, DST: {dst}")
+            print("Invalid Index, cannot be less than 0")
+            return
 
         if src > row_valid_index or dst > column_valid_index:
             print(f"SRC: {src}, DST: {dst}")
