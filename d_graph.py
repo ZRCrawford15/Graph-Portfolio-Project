@@ -108,8 +108,8 @@ class DirectedGraph:
         rows = len(self.adj_matrix)
         columns = len(self.adj_matrix[0])
 
-        row_valid_index = rows
-        column_valid_index = columns
+        row_valid_index = rows - 1
+        column_valid_index = columns - 1
 
         if src < 0 or dst < 0:
             print(f"SRC: {src}, DST: {dst}")
