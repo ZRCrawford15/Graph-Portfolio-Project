@@ -112,6 +112,8 @@ class DirectedGraph:
         column_valid_index = columns - 1
 
         if src > row_valid_index or dst > column_valid_index:
+            print(f"SRC: {src}, DST: {dst}")
+
             print("Invalid Index")
             return
 
