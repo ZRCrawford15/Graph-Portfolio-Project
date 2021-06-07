@@ -102,8 +102,8 @@ class DirectedGraph:
         Removes an edge between two vertices.
         """
         # invalid vertex
-        if src > len(self.adj_matrix) or dst > self.adj_matrix[0]:
-            return
+        # if src > len(self.adj_matrix) or dst > self.adj_matrix[0]:
+        #     return
 
         self.adj_matrix[src][dst] = 0
 
@@ -267,10 +267,52 @@ class DirectedGraph:
             # 1) pick any node and start searching
             # 2) see where end is
             # 3) check if end is same as starting node
+        visited = {}
+        matrix = self.adj_matrix
+        for vertex in range(len(matrix)):
+            visited[vertex] = False
+
+        rec_stack = {}
+        for vertex in range(len(matrix)):
+            rec_stack[vertex] = False
+
+        for i in range(len(self.adj_matrix)):
+            if not visited[i]:
+                if self.has_cycle_helper(i, visited, rec_stack):
+                    return True
+
+        return False
+
+
+    def has_cycle_helper(self, vertex, visited, rec_stack):
+
+        visited[vertex] = True
+
+        # current path of visited nodes to reference
+        # back to check for a cycle
+        rec_stack[vertex] = True
+
+        successors = self.adj_matrix[vertex]
+        counter = -1
+
+        # check each child of the vertex
+        for child in successors:
+            counter += 1
+            # if the vertex is not visited and has a connected edge
+            # check its successors and children for a vertex that
+            # has already been visited in the path. Therefore
+            # finding a cycle
+            if not visited[counter] and child > 0:
+                if self.has_cycle_helper(counter, visited, rec_stack):
+                    return True
+            elif rec_stack[counter] and child > 0:
+                return True
+
+        rec_stack[vertex] = False
+        return False
 
 
 
-        pass
 
     def dijkstra(self, src: int) -> []:
         """
@@ -281,7 +323,59 @@ class DirectedGraph:
             #[0: 15, 1: 20, 2: 3] - find minumum cost
         # for each neighbor, evaluate all of its neighbors (dfs)
 
-        pass
+        # initialize empty hash table of visited vertices
+        visited = {}
+        matrix = self.adj_matrix
+        for vertex in range(len(matrix)):
+            visited[vertex] = float('inf')
+
+        # first node distance is 0
+        visited[src] = 0
+
+        # initialize first value in queue
+        priority_queue = [src]
+        heapq.heapify(priority_queue)
+
+        while len(priority_queue) > 0:
+            vertex = heapq.heappop(priority_queue)
+            d = visited[vertex]
+            if d == float('inf'):
+                returned_list.append(float('inf'))
+                continue
+            for i in range(len(self.adj_matrix[vertex])):
+                # not visited if value is infinity
+                if visited[i] == float('inf'):
+                    if self.adj_matrix[vertex][i] > 0:
+                        # add v to visited with cost of edge
+                        visited[i] = self.adj_matrix[vertex][i]
+
+
+                        d2 = 0
+                        # for each successor of vertex
+                        # for j in range(len(self.adj_matrix[vertex])):
+                    # if there is an edge let d2 = cost
+                        if self.adj_matrix[vertex][i] > 0:
+                            d2 = self.adj_matrix[vertex][i]
+                            # add d with d2
+                            visited[i] = d2 + d
+                            # insert successor with distance into priority queue with updated distance value
+                            heapq.heappush(priority_queue, i)
+
+
+        # append cost of each visited vertex to final list
+        returned_list = []
+        for i in range(len(visited)):
+            returned_list.append(visited[i])
+
+
+        return returned_list
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
@@ -322,13 +416,13 @@ if __name__ == '__main__':
     #     print(path, g.is_valid_path(path))
     #
     #
-    print("\nPDF - method dfs() and bfs() example 1")
-    print("--------------------------------------")
-    edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
-             (3, 1, 5), (2, 1, 23), (3, 2, 7)]
-    g = DirectedGraph(edges)
-    for start in range(5):
-        print(f'{start} DFS:{g.dfs(start)} BFS:{g.bfs(start)}')
+    # print("\nPDF - method dfs() and bfs() example 1")
+    # print("--------------------------------------")
+    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    # g = DirectedGraph(edges)
+    # for start in range(5):
+    #     print(f'{start} DFS:{g.dfs(start)} BFS:{g.bfs(start)}')
     #
     #
     # print("\nPDF - method has_cycle() example 1")
@@ -341,7 +435,7 @@ if __name__ == '__main__':
     # for src, dst in edges_to_remove:
     #     g.remove_edge(src, dst)
     #     print(g.get_edges(), g.has_cycle(), sep='\n')
-    #
+    # #
     # edges_to_add = [(4, 3), (2, 3), (1, 3), (4, 0)]
     # for src, dst in edges_to_add:
     #     g.add_edge(src, dst)
@@ -349,14 +443,14 @@ if __name__ == '__main__':
     # print('\n', g)
     #
     #
-    # print("\nPDF - dijkstra() example 1")
-    # print("--------------------------")
-    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
-    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
-    # g = DirectedGraph(edges)
-    # for i in range(5):
-    #     print(f'DIJKSTRA {i} {g.dijkstra(i)}')
-    # g.remove_edge(4, 3)
-    # print('\n', g)
-    # for i in range(5):
-    #     print(f'DIJKSTRA {i} {g.dijkstra(i)}')
+    print("\nPDF - dijkstra() example 1")
+    print("--------------------------")
+    edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+             (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    g = DirectedGraph(edges)
+    for i in range(5):
+        print(f'DIJKSTRA {i} {g.dijkstra(i)}')
+    g.remove_edge(4, 3)
+    print('\n', g)
+    for i in range(5):
+        print(f'DIJKSTRA {i} {g.dijkstra(i)}')
