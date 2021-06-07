@@ -105,6 +105,16 @@ class DirectedGraph:
         # if src > len(self.adj_matrix) or dst > self.adj_matrix[0]:
         #     return
 
+        rows = len(self.adj_matrix)
+        columns = len(self.adj_matrix[0])
+
+        row_valid_index = rows - 1
+        column_valid_index = columns - 1
+
+        if src > row_valid_index or dst > column_valid_index:
+            print("Invalid Index")
+            return
+
         self.adj_matrix[src][dst] = 0
 
         return
@@ -380,19 +390,21 @@ class DirectedGraph:
 
 if __name__ == '__main__':
 
-    # print("\nPDF - method add_vertex() / add_edge example 1")
-    # print("----------------------------------------------")
-    # g = DirectedGraph()
-    # print(g)
-    # for _ in range(5):
-    #     g.add_vertex()
-    # print(g)
-    #
-    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
-    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
-    # for src, dst, weight in edges:
-    #     g.add_edge(src, dst, weight)
-    # print(g)
+    print("\nPDF - method add_vertex() / add_edge example 1")
+    print("----------------------------------------------")
+    g = DirectedGraph()
+    print(g)
+    for _ in range(5):
+        g.add_vertex()
+    print(g)
+
+    edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+             (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    for src, dst, weight in edges:
+        g.add_edge(src, dst, weight)
+    print(g)
+
+    g.remove_edge(6, 9)
     #
     #
     # print("\nPDF - method get_edges() example 1")
@@ -430,7 +442,7 @@ if __name__ == '__main__':
     # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
     #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
     # g = DirectedGraph(edges)
-    #
+    # #
     # edges_to_remove = [(3, 1), (4, 0), (3, 2)]
     # for src, dst in edges_to_remove:
     #     g.remove_edge(src, dst)
@@ -443,14 +455,14 @@ if __name__ == '__main__':
     # print('\n', g)
     #
     #
-    print("\nPDF - dijkstra() example 1")
-    print("--------------------------")
-    edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
-             (3, 1, 5), (2, 1, 23), (3, 2, 7)]
-    g = DirectedGraph(edges)
-    for i in range(5):
-        print(f'DIJKSTRA {i} {g.dijkstra(i)}')
-    g.remove_edge(4, 3)
-    print('\n', g)
-    for i in range(5):
-        print(f'DIJKSTRA {i} {g.dijkstra(i)}')
+    # print("\nPDF - dijkstra() example 1")
+    # print("--------------------------")
+    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    # g = DirectedGraph(edges)
+    # for i in range(5):
+    #     print(f'DIJKSTRA {4} {g.dijkstra(4)}')
+    # g.remove_edge(4, 3)
+    # print('\n', g)
+    # for i in range(5):
+    #     print(f'DIJKSTRA {i} {g.dijkstra(i)}')
