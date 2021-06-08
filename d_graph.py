@@ -101,9 +101,6 @@ class DirectedGraph:
         """
         Removes an edge between two vertices.
         """
-        # invalid vertex
-        # if src > len(self.adj_matrix) or dst > self.adj_matrix[0]:
-        #     return
 
         rows = len(self.adj_matrix)
         columns = len(self.adj_matrix[0])
@@ -346,15 +343,21 @@ class DirectedGraph:
         for vertex in range(len(matrix)):
             visited[vertex] = float('inf')
 
+        visited2 = {}
+        for vertex in range(len(matrix)):
+            visited2[vertex] = False
+
         # first node distance is 0
         visited[src] = 0
 
         # initialize first value in queue
-        priority_queue = [src]
+        queue = [src]
+        returned_list = []
+        priority_queue = []
         heapq.heapify(priority_queue)
 
-        while len(priority_queue) > 0:
-            vertex = heapq.heappop(priority_queue)
+        while len(queue) > 0:
+            vertex = queue.pop(0)
             d = visited[vertex]
             if d == float('inf'):
                 returned_list.append(float('inf'))
@@ -366,21 +369,35 @@ class DirectedGraph:
                         # add v to visited with cost of edge
                         visited[i] = self.adj_matrix[vertex][i]
 
-
                         d2 = 0
                         # for each successor of vertex
-                        # for j in range(len(self.adj_matrix[vertex])):
-                    # if there is an edge let d2 = cost
+                        # if there is an edge let d2 = cost
                         if self.adj_matrix[vertex][i] > 0:
                             d2 = self.adj_matrix[vertex][i]
                             # add d with d2
                             visited[i] = d2 + d
                             # insert successor with distance into priority queue with updated distance value
-                            heapq.heappush(priority_queue, i)
+                            heapq.heappush(priority_queue, self.adj_matrix[vertex][i])
+
+            # Gets the vertex associated with the lowest edge to append
+            # to the priority queue
+            # TODO: This did nothing to help solve shortest path
+            # TODO: Still picking lowest node index
+            key_list = list(visited.keys())
+            value_list = list(visited.values())
+            #
+            for i in range(len(value_list)):
+                if visited[i] != float('inf') and visited[i] > 0:
+                    if not visited2[i]:
+                        queue.append(i)
+                        visited2[i] = True
+
+            priority_queue = []
+            heapq.heapify(priority_queue)
 
 
         # append cost of each visited vertex to final list
-        returned_list = []
+
         for i in range(len(visited)):
             returned_list.append(visited[i])
 
@@ -397,21 +414,21 @@ class DirectedGraph:
 
 if __name__ == '__main__':
 
-    print("\nPDF - method add_vertex() / add_edge example 1")
-    print("----------------------------------------------")
-    g = DirectedGraph()
-    print(g)
-    for _ in range(5):
-        g.add_vertex()
-    print(g)
-
-    edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
-             (3, 1, 5), (2, 1, 23), (3, 2, 7)]
-    for src, dst, weight in edges:
-        g.add_edge(src, dst, weight)
-    print(g)
-
-    g.remove_edge(6, 9)
+    # print("\nPDF - method add_vertex() / add_edge example 1")
+    # print("----------------------------------------------")
+    # g = DirectedGraph()
+    # print(g)
+    # for _ in range(5):
+    #     g.add_vertex()
+    # print(g)
+    #
+    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    # for src, dst, weight in edges:
+    #     g.add_edge(src, dst, weight)
+    # print(g)
+    #
+    # g.remove_edge(6, 9)
     #
     #
     # print("\nPDF - method get_edges() example 1")
@@ -462,14 +479,14 @@ if __name__ == '__main__':
     # print('\n', g)
     #
     #
-    # print("\nPDF - dijkstra() example 1")
-    # print("--------------------------")
-    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
-    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
-    # g = DirectedGraph(edges)
-    # for i in range(5):
-    #     print(f'DIJKSTRA {4} {g.dijkstra(4)}')
-    # g.remove_edge(4, 3)
-    # print('\n', g)
-    # for i in range(5):
-    #     print(f'DIJKSTRA {i} {g.dijkstra(i)}')
+    print("\nPDF - dijkstra() example 1")
+    print("--------------------------")
+    edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+             (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    g = DirectedGraph(edges)
+    for i in range(5):
+        print(f'DIJKSTRA {i} {g.dijkstra(i)}')
+    g.remove_edge(4, 3)
+    print('\n', g)
+    for i in range(5):
+        print(f'DIJKSTRA {i} {g.dijkstra(i)}')
