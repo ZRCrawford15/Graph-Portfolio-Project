@@ -81,15 +81,19 @@ class UndirectedGraph:
         # TODO: Fix edge case of vertices in graph but no edge between them
 
 
-        # No Edge between the two vertices
-        if u not in self.adj_list[v].values:
-            return
+
 
         # Vertex not in graph
         if v not in self.adj_list.keys():
             return
         if u not in self.adj_list.keys():
             return
+
+        # No Edge between the two vertices
+        test = self.adj_list[v]
+        if u not in self.adj_list[v]:
+            return
+
 
         # remove u from v
         v_list = self.adj_list[v]
@@ -406,15 +410,16 @@ if __name__ == '__main__':
     #     g.add_edge(u, v)
     # print(g)
     #
-    # print("\nPDF - method remove_edge() / remove_vertex example 1")
-    # print("----------------------------------------------------")
-    # g = UndirectedGraph(['AB', 'AC', 'BC', 'BD', 'CD', 'CE', 'DE'])
-    # g.remove_vertex('DOES NOT EXIST')
-    # g.remove_edge('A', 'B')
-    # g.remove_edge('X', 'B')
-    # print(g)
-    # g.remove_vertex('D')
-    # print(g)
+    print("\nPDF - method remove_edge() / remove_vertex example 1")
+    print("----------------------------------------------------")
+    g = UndirectedGraph(['AB', 'AC', 'BC', 'BD', 'CD', 'CE', 'DE'])
+    g.remove_vertex('DOES NOT EXIST')
+    g.remove_edge('B', 'E')
+    g.remove_edge('A', 'B')
+    g.remove_edge('X', 'B')
+    print(g)
+    g.remove_vertex('D')
+    print(g)
     #
     # print("\nPDF - method get_vertices() / get_edges() example 1")
     # print("---------------------------------------------------")
