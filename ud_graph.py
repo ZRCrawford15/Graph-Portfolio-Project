@@ -1,7 +1,8 @@
-# Course: 
-# Author: 
-# Assignment: 
-# Description:
+# Course: CS261 - Data Structures
+# Author: Zachary Crawford
+# Assignment: Assignment 6 ud_graph
+# Description: Implementation of an undirected graph using an adjacency
+# list
 
 
 class UndirectedGraph:
@@ -79,6 +80,10 @@ class UndirectedGraph:
         """
         # TODO: Fix edge case of vertices in graph but no edge between them
 
+
+        # No Edge between the two vertices
+        if u not in self.adj_list[v].values:
+            return
 
         # Vertex not in graph
         if v not in self.adj_list.keys():
@@ -225,7 +230,6 @@ class UndirectedGraph:
             top = stack.pop()
 
             # end point
-            # TODO: figure out how to append stop position if found
 
             # check if v_end is in vertex's neighbors
             # append current vertex and end vertex

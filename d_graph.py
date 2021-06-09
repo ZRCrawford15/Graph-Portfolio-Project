@@ -1,7 +1,8 @@
 # Course: CS261 - Data Structures
-# Author:
-# Assignment:
-# Description:
+# Author: Zachary Crawford
+# Assignment: Assignment 6 d_graph adjacency matrix
+# Description: An implementation of a directed graph using an
+# adjacency matrix
 
 
 import heapq
@@ -274,7 +275,7 @@ class DirectedGraph:
 
     def has_cycle(self):
         """
-        TODO: Write this implementation
+        Determines if there is a cycle in the given graph
         """
         # Think of clever solution
         # For all nodes
@@ -299,7 +300,9 @@ class DirectedGraph:
 
 
     def has_cycle_helper(self, vertex, visited, rec_stack):
-
+        """
+        Helper method to determine if the graph has a cycle
+        """
         visited[vertex] = True
 
         # current path of visited nodes to reference
@@ -330,7 +333,10 @@ class DirectedGraph:
 
     def dijkstra(self, src: int) -> []:
         """
-        TODO: Write this implementation
+        Calculates the shortest path from a starting vertex
+        to all other vertices in the graph using Dijkstra's algorithm
+        Param src: Starting node
+        return: List of distances to each node from starting node
         """
         # Start at a vertex
         # check every edge and calculate cost -> list
